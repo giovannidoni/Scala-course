@@ -1,0 +1,30 @@
+console
+    def sum(xs: List[Int]): Int = {
+      def loop(acc: Int, xs: List[Int]) =
+        if (xs.size==0) acc
+        else loop(acc+xs.head, xs.tail)
+      loop(xs, 0)
+console
+   def sum(xs: List[Int]): Int = {
+      def loop(acc: Int, xs: List[Int]) =
+        if (xs.size==0) acc
+        else loop(acc+xs.head, xs.tail)
+      loop(0, xs)
+console
+    def sum(xs: List[Int]): Int = {
+      def loop(acc: Int, xs: List[Int]): Int = {
+        if (xs.size == 0) acc
+        else loop(acc + xs.head, xs.tail)
+      }
+      loop(0, xs)
+console
+compile
+run
+compile
+run
+submit giovanni.doni@yahoo.it eqFIwBJuAFNMocuC
+compile
+run
+compile
+run
+submit giovanni.doni@yahoo.it xj1jhtPH4lGD9Req

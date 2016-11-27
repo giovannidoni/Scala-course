@@ -1,0 +1,36 @@
+[0m[[0mdebug[0m] [0mThe example.Lists$ source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, Lists, wait, $asInstanceOf, equals, asInstanceOf, executionStart, synchronized, $isInstanceOf, main, notifyAll, isInstanceOf, max, ==, clone, toString, args, !=, getClass, ne, eq, sum, delayedInit, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) example.Lists$: Set(); now invalidating by inheritance (internally).[0m
+[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
+[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) example.Lists$.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala: Set(Lists, max, ==, sum)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mInvalidated products: Set(/Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$5.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$6.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$4.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$3.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$1.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$4$$anonfun$apply$mcV$sp$1.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite.class, /Users/giovanni/Desktop/Scala-course/example/target/scala-2.11/test-classes/example/ListsSuite$$anonfun$2.class)[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set(NamesChange(example.Lists$,ModifiedNames(regularNames = notify, Lists, wait, $asInstanceOf, equals, asInstanceOf, executionStart, synchronized, $isInstanceOf, main, notifyAll, isInstanceOf, max, ==, clone, toString, args, !=, getClass, ne, eq, sum, delayedInit, ##, finalize, hashCode, implicitNames = )))[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 0 sources: invalidated sources (1) exceeded 50.0% of all sources[0m
+[0m[[0mdebug[0m] [0mInvalidating /Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala)[0m
+[0m[[0mdebug[0m] [0mThe /Users/giovanni/Desktop/Scala-course/example/src/test/scala/example/ListsSuite.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	unconstrainedEquality, convertToEqualizer.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m
