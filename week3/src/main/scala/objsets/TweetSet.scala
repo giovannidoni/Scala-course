@@ -121,6 +121,10 @@ class Empty extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
+  override def toString = "{" + "}"
+
+  override def mostRetweeted: Tweet = throw new NoSuchElementException
+
   /**
    * The following methods are already implemented
    */
@@ -133,12 +137,6 @@ class Empty extends TweetSet {
 
   def foreach(f: Tweet => Unit): Unit = ()
 
-  override def union(that: TweetSet): TweetSet = that
-
-  def mostRetweeted: Tweet = throw new NoSuchElementException
-
-  override def toString = "{" + "}"
-
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -146,11 +144,22 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   val isEmpty = false
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    val rest = left union right
-    if( p(elem) ) rest.filterAcc(p, acc.incl(elem))
-    else rest.filterAcc(p, acc)
-
+    if (p(elem)) left.filterAcc(p, right.filterAcc(p, acc.incl(elem)))
+    else left.filterAcc(p, right.filterAcc(p, acc))
   }
+
+  def mostRetweeted: Tweet = {
+    def maxi(tw1: Tweet, tw2: Tweet): Tweet = {
+      if (tw1.retweets > tw2.retweets) tw1 else tw2
+    }
+    if (left.isEmpty && right.isEmpty) elem
+    else if (right.isEmpty) maxi(left.mostRetweeted, elem)
+    else if (left.isEmpty) maxi(right.mostRetweeted, elem)
+    else maxi(left.mostRetweeted, maxi(left.mostRetweeted, elem))
+  }
+
+  override def toString = "{" + left + elem + right + "}"
+
   /**
    * The following methods are already implemented
    */
@@ -177,21 +186,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     right.foreach(f)
   }
 
-//  def union(that: TweetSet): TweetSet =
-//    ((left union right) union that) incl elem
-
-  def mostRetweeted: Tweet = {
-    def maxi(tw1: Tweet, tw2: Tweet): Tweet = {
-      if (tw1.retweets > tw2.retweets) tw1 else tw2
-    }
-    if (left.isEmpty && right.isEmpty) elem
-    else if (right.isEmpty) maxi(left.mostRetweeted, elem)
-    else if (left.isEmpty) maxi(right.mostRetweeted, elem)
-    else maxi(left.mostRetweeted, maxi(left.mostRetweeted ,elem))
-  }
-
-  override def toString = "{" + left + elem + right + "}"
-
 }
 
 trait TweetList {
@@ -216,7 +210,7 @@ class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
 }
 
 
-object GoogleVsApple extends App{
+object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
@@ -229,11 +223,11 @@ object GoogleVsApple extends App{
   lazy val appleTweets: TweetSet = filterWithList(apple)
 
   /**
-   * A list of all tweets mentioning a keyword from either apple or google,
-   * sorted by the number of retweets.
-   */
-  lazy val trending: TweetList = (googleTweets union appleTweets).descendingByRetweet
-  }
+    * A list of all tweets mentioning a keyword from either apple or google,
+    * sorted by the number of retweets.
+    */
+  lazy val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
+}
 
 object Main extends App {
   // Print the trending tweets
