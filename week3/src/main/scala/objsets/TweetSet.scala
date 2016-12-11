@@ -34,6 +34,8 @@ class Tweet(val user: String, val text: String, val retweets: Int) {
  */
 abstract class TweetSet {
 
+  def isEmpty: Boolean
+
   /**
    * This method takes a predicate and returns a subset of all the elements
    * in the original set for which the predicate is true.
@@ -42,7 +44,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
   def filter(p: Tweet => Boolean): TweetSet = filterAcc(p, new Empty)
-  
+
   /**
    * This is a helper method for `filter` that propagetes the accumulated tweets.
    */
@@ -55,7 +57,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
     def union(that: TweetSet): TweetSet
-  
+
   /**
    * Returns the tweet from this set which has the greatest retweet count.
    *
@@ -66,7 +68,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
     def mostRetweeted: Tweet
-  
+
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
    * in descending order. In other words, the head of the resulting list should
@@ -77,7 +79,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
     def descendingByRetweet: TweetList
-  
+
   /**
    * The following methods are already implemented
    */
@@ -108,7 +110,9 @@ abstract class TweetSet {
 
 class Empty extends TweetSet {
 
-  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = new Empty
+  val isEmpty = true
+
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
   /**
    * The following methods are already implemented
@@ -124,7 +128,7 @@ class Empty extends TweetSet {
 
   def union(that: TweetSet): TweetSet = that
 
-  def mostRetweeted: Tweet = throw new java.util.NoSuchElementException
+  def mostRetweeted: Tweet = throw new NoSuchElementException
 
   def descendingByRetweet: TweetList = Nil
 
@@ -134,12 +138,14 @@ class Empty extends TweetSet {
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
-    def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-      val l_set = left.filterAcc(p, acc)
-      val r_set = right.filterAcc(p, acc)
-      if (!p(elem)) acc
-      else new NonEmpty(elem, l_set, r_set)
-    }
+  val isEmpty = false
+
+  def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
+    val rest = left union right
+    if( p(elem) ) rest.filterAcc(p, acc.incl(elem))
+    else rest.filterAcc(p, acc)
+
+  }
   /**
    * The following methods are already implemented
    */
@@ -170,8 +176,13 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     ((left union right) union that) incl elem
   }
   def mostRetweeted: Tweet = {
-    val filtered = right.filter(p => p.retweets > elem.retweets)
-    if (filtered.isInstanceOf[TweetSet]) elem else filtered.mostRetweeted
+    def maxi(tw1: Tweet, tw2: Tweet): Tweet = {
+      if (tw1.retweets > tw2.retweets) tw1 else tw2
+    }
+    if (left.isEmpty && right.isEmpty) elem
+    else if (right.isEmpty) maxi(left.mostRetweeted, elem)
+    else if (left.isEmpty) maxi(right.mostRetweeted, elem)
+    else maxi(left.mostRetweeted, maxi(left.mostRetweeted ,elem))
   }
 
   def descendingByRetweet: TweetList = {
@@ -218,7 +229,7 @@ object GoogleVsApple extends App{
 
   lazy val googleTweets: TweetSet = filterWithList(google)
   lazy val appleTweets: TweetSet = filterWithList(apple)
-  
+
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
@@ -259,7 +270,7 @@ class NnEmpt(elem: Int, val left: InSet, val right: InSet) extends InSet {
   override def toString = "{" + left + elem + right + "}"
 }
 
-object Tree {
+object Tree extends App {
   val t1 = Empt
   println(t1.toString)
   val t2 = new NnEmpt(3, Empt, Empt)
@@ -274,10 +285,12 @@ object Tree {
   println(t0.left)
 
   val set1 = new Empty
-  val set2 = set1.incl(new Tweet("a", "a body", 110))
-  val set3 = set2.incl(new Tweet("b", "b body", 20))
-  //println(set3 filter(x => x.retweets > 20))
-  println(set3.mostRetweeted)
+  val set2 = set1.incl(new Tweet("a", "a body", 20))
+  val set3 = set2.incl(new Tweet("b", "b body", 110))
+  val set4 = set3.incl(new Tweet("c", "c body", 200))
+
+  println(set4 filter(x => x.retweets > 20))
+  println(set4.mostRetweeted)
   println(set3.descendingByRetweet)
 
 }
