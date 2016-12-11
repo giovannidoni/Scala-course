@@ -56,7 +56,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def union(that: TweetSet): TweetSet
+  def union(that: TweetSet): TweetSet = that.filterAcc(x => true, this)
 
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -67,7 +67,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def mostRetweeted: Tweet
+  def mostRetweeted: Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -78,7 +78,14 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def descendingByRetweet: TweetList
+  def descendingByRetweet: TweetList = {
+    if (isEmpty) Nil
+    else {
+      val mostPopular = mostRetweeted
+      val rest = remove(mostPopular)
+      new Cons(mostPopular, rest.descendingByRetweet)
+    }
+  }
 
   /**
    * The following methods are already implemented
@@ -126,11 +133,9 @@ class Empty extends TweetSet {
 
   def foreach(f: Tweet => Unit): Unit = ()
 
-  def union(that: TweetSet): TweetSet = that
+  override def union(that: TweetSet): TweetSet = that
 
   def mostRetweeted: Tweet = throw new NoSuchElementException
-
-  def descendingByRetweet: TweetList = Nil
 
   override def toString = "{" + "}"
 
@@ -172,9 +177,9 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     right.foreach(f)
   }
 
-  def union(that: TweetSet): TweetSet = {
-    ((left union right) union that) incl elem
-  }
+//  def union(that: TweetSet): TweetSet =
+//    ((left union right) union that) incl elem
+
   def mostRetweeted: Tweet = {
     def maxi(tw1: Tweet, tw2: Tweet): Tweet = {
       if (tw1.retweets > tw2.retweets) tw1 else tw2
@@ -183,13 +188,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     else if (right.isEmpty) maxi(left.mostRetweeted, elem)
     else if (left.isEmpty) maxi(right.mostRetweeted, elem)
     else maxi(left.mostRetweeted, maxi(left.mostRetweeted ,elem))
-  }
-
-  def descendingByRetweet: TweetList = {
-    val mostPopular = this.mostRetweeted
-    val rest = this.remove(mostPopular)
-    if (rest.isInstanceOf[TweetSet]) new Cons(mostPopular, Nil)
-    else new Cons(mostPopular, rest.descendingByRetweet)
   }
 
   override def toString = "{" + left + elem + right + "}"
