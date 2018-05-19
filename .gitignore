@@ -15,3 +15,8 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+.idea
+week1/.idea
+week2/.idea
+week4/.idea
+week6/.idea
